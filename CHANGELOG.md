@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+# [1.3.2] 08-06-2020
+
+### Added
+
+- Move print output into a separate function
+
+### Changed
+
+### Fixed
+
+### Removed
+
 # [1.3.1] 07-07-2020
 
 ### Added

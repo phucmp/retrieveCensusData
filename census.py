@@ -7,8 +7,7 @@ import requests
 #json library will be needed to capture api response
 import json
 
-if __name__ == "__main__":
-
+def output_intro():
     #print out loading screen for program
     print("")
     print("          * * * * * * * * * * * *           ")
@@ -37,6 +36,10 @@ if __name__ == "__main__":
     print("--------------------------------------------")
     print("          * * * * * * * * * * * *           ")
     print("")
+
+if __name__ == "__main__":
+    #loading screen
+    output_intro()    
 
     #store your API key here from api.census.gov/data/key_signup.html
     apiKey = "redacted"
