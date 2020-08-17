@@ -7,7 +7,7 @@ import requests
 #json library will be needed to capture api response
 import json
 
-def output_intro():
+def display_intro():
     #print out loading screen for program
     print("")
     print("          * * * * * * * * * * * *           ")
@@ -37,9 +37,17 @@ def output_intro():
     print("          * * * * * * * * * * * *           ")
     print("")
 
+class Handler():
+    def __init__(self):
+        self.year = ""
+        self.arguments = ""
+    
+    def set_year(self):
+        pass
+
 if __name__ == "__main__":
     #loading screen
-    output_intro()    
+    display_intro()    
 
     #store your API key here from api.census.gov/data/key_signup.html
     apiKey = "redacted"
