@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [1.3.3] 08-18-2020
+
+### Added
 - Created new class to handle terminal inputs
+- Updated main function to use handler class
 
 ### Changed
 
