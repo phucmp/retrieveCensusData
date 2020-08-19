@@ -7,68 +7,82 @@ import requests
 #json library will be needed to capture api response
 import json
 
-def display_intro():
-    """print out loading screen for program"""
-    print("")
-    print("          * * * * * * * * * * * *           ")
-    print("--------------------------------------------")
-    print("--------------------------------------------")
-    print("--                                        --")
-    print("--  WELCOME TO RETRIEVING CENSUS PROGRAM  --")
-    print("--                                        --")
-    print("--------------------------------------------")
-    print("--------------------------------------------")
-    print("          * * * * * * * * * * * *           ")
-    print("--------------------------------------------")
-    print("--------------------------------------------")
-    print("--              The Purpose:              --")
-    print("--  This program is to use census data    --")
-    print("--  from census.gov API to retrieve the   --")
-    print("--  necessary data from census variables. --")
-    print("")
-    print("--              How to use:               --")
-    print("--  Need to have all necessary variables  --")
-    print("--  code from particular API and an API   --")
-    print("--  key from the following website link:  --")
-    print("--  api.census.gov/data/key_signup.html.  --")
-    print("--  Follow instructions in the console.  --")
-    print("--------------------------------------------")
-    print("--------------------------------------------")
-    print("          * * * * * * * * * * * *           ")
-    print("")
-
-class Handler():
+#class to help users understand how to use the program
+class IntroGuide:
     def __init__(self):
+        pass
+
+    def display_intro(self):
+        """print out loading screen for program"""
+        print("")
+        print("          * * * * * * * * * * * *           ")
+        print("--------------------------------------------")
+        print("--------------------------------------------")
+        print("--                                        --")
+        print("--  WELCOME TO RETRIEVING CENSUS PROGRAM  --")
+        print("--                                        --")
+        print("--------------------------------------------")
+        print("--------------------------------------------")
+        print("          * * * * * * * * * * * *           ")
+        print("--------------------------------------------")
+        print("--------------------------------------------")
+        print("--              The Purpose:              --")
+        print("--  This program is to use census data    --")
+        print("--  from census.gov API to retrieve the   --")
+        print("--  necessary data from census variables. --")
+        print("")
+        print("--              How to use:               --")
+        print("--  Need to have all necessary variables  --")
+        print("--  code from particular API and an API   --")
+        print("--  key from the following website link:  --")
+        print("--  api.census.gov/data/key_signup.html.  --")
+        print("--  Follow instructions in the console.  --")
+        print("--------------------------------------------")
+        print("--------------------------------------------")
+        print("          * * * * * * * * * * * *           ")
+        print("")
+
+
+#class to handle the construction of url for api call
+class Handler():
+    def __init__(self, api_key):
         """Handler Constructor"""
-        self.apiUrlPath = ""
-        self.forValueUrl = ""
-        self.variableCodes = ""
+        self.api_key = api_key
+        self.base_url = "https://api.census.gov/%s?key=%s&get=%s&for=%s"
+        self.api_call_url = ""
+        self.year_url_path = ""
+        self.primary_search_key = ""
+        self.variable_codes = ""
     
+
     def set_year(self):
         """Set url paths from user input argument"""
         year = input("Please choose which census table to look at [2000SF1 or 2000SF3 or 2010]: ")
         if (year.upper() == '2000SF1'):
             print("Chosen Census Table Year: 2000 SF1")
             print("Please check https://api.census.gov/data/2000/sf1/variables.html for potential variable codes.\n")
-            self.apiUrlPath = "data/2000/sf1"
-            self.forValueUrl = "state:*"
+            self.year_url_path = "data/2000/sf1"
+            self.primary_search_key = "state:*"
         elif (year.upper() == '2000SF3'):
             print("Chosen Census Table Year: 2000 SF3")
             print("Please check https://api.census.gov/data/2000/sf3/variables.html for potential variable codes.\n")
-            self.apiUrlPath = "data/2000/sf3"
-            self.forValueUrl = "state:*"
+            self.year_url_path = "data/2000/sf3"
+            self.primary_search_key = "state:*"
         elif (year == "2010"):
             print("Chosen Census Table Year: 2010")
             print("Please check https://api.census.gov/data/2010/dec/sf1/variables.html for potential variable codes.\n")
-            self.apiUrlPath = "data/2010/dec/sf1"
-            self.forValueUrl = "zip%20code%20tabulation%20area:*"
+            self.year_url_path = "data/2010/dec/sf1"
+            self.primary_search_key = "zip%20code%20tabulation%20area:*"
         else:
             print("This program does not support that census table at the moment. Quitting program...\n")
             exit()
 
+
     def set_variable_codes(self):
         """Set variable codes from user input argument"""
         codes = input("Please enter variable code that you want to view (e.g. P003001 or P003001, P003002, P003003, etc.). Or type 'quit' to exit: ").replace(" ","").strip(',').upper()
+        
+        #request for users to input variable codes
         while (codes == ""):
             if (codes == "quit"):
                 print("Quitting program...\n")
@@ -78,50 +92,71 @@ class Handler():
                 codes = input("Please enter variable code that you want to view (e.g. P003001 or P003001, P003002, P003003, etc.). Or type 'quit' to exit: ").replace(" ","").strip(',').upper()
                 print(variables)
 
-        #quit program if no variable codes were given
         if (len(codes) == 0 or len(codes.split(",")) == 0):
+            #quit program if no variable codes were given
             print("No codes were inputted. Quitting program...\n")
             exit()
         else:
-            self.variableCodes = codes
+            #display variable codes to user
+            self.variable_codes = codes
+            print("Variable Codes: {}\n".format(self.variable_codes))
 
-    def get_api_url_path(self):
+
+    def set_api_url(self):
+        """Set the url for the api call"""
+        self.api_call_url = self.base_url % (self.year_url_path, self.api_key, self.variable_codes, self.primary_search_key)
+
+
+    def get_year_url_path(self):
         """Return api folder url path"""
-        return self.apiUrlPath
+        return self.year_url_path
     
-    def get_for_value_url(self):
+
+    def get_primary_search_key(self):
         """Return value url path"""
-        return self.forValueUrl
+        return self.primary_search_key
+
 
     def get_variable_codes(self):
         """Return all variable codes for url path"""
         return self.variableCodes
 
+
     def get_variable_codes_split(self):
         """Return list of all variable codes"""
-        return self.variableCodes.split(",")
+        return self.variable_codes.split(",")
+
+
+    def get_api_call_url(self):
+        """Return url for api call"""
+        return self.api_call_url
+
+
 
 if __name__ == "__main__":
+
+    #################################
+    ### Main Execution of Program ###
+    #################################
+
     #loading screen
-    display_intro()    
+    intro_guide = IntroGuide()
+    intro_guide.display_intro()    
 
     #store your API key here from api.census.gov/data/key_signup.html
-    apiKey = "redacted"
+    api_key = "redacted"
 
-    #prompt to set your version api call and variable codes
-    handler = Handler()
+    #prompt to set your version, search key, and variable codes
+    handler = Handler(api_key)
     handler.set_year()
     handler.set_variable_codes()
 
-
-    print("Variable Codes: {}\n".format(handler.get_variable_codes()))
-    #format the API call with variables for all zip code tabulation area
-    baseAPI = "https://api.census.gov/%s?key=%s&get=%s&for=%s"
-    calledAPI = baseAPI % (handler.get_api_url_path(), apiKey, handler.get_variable_codes(), handler.get_for_value_url())
+    #format url to call api
+    handler.set_api_url()    
 
     try:
         #send API request to retrieve response
-        response = requests.get(calledAPI)
+        response = requests.get(handler.get_api_call_url())
 
         #store response as a JSON format and ignore first index of JSON (labels)
         formattedResponse = json.loads(response.text)[1:]
