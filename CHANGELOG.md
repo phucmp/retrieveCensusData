@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+## [1.3.4] 08-19-2020
+
+### Added
+- Created class for introduction guide
+
+### Changed
+- Update handler class to handle all formatting of api url
+
+### Fixed
+
+### Removed
+
+
 ## [1.3.3] 08-18-2020
 
 ### Added
