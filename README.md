@@ -1,4 +1,4 @@
-# Retrieve Census Data [Version 1.3.2]
+# Retrieve Census Data [Version 1.3.3]
 
 Python program to retrieve census data based on variable code. **This code is written for Python 3.7**.
 
