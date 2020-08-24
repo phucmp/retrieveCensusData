@@ -7,6 +7,12 @@ import requests
 #json library will be needed to capture api response
 import json
 
+#json decoder library to handle exception
+from json.decoder import JSONDecodeError
+
+#sys library will be needed to handle unexpected errors
+import sys
+
 #class to help users understand how to use the program
 class IntroGuide:
     def __init__(self):
@@ -146,12 +152,10 @@ if __name__ == "__main__":
     #store your API key here from api.census.gov/data/key_signup.html
     api_key = "redacted"
 
-    #prompt to set your version, search key, and variable codes
+    #prompt to set your version, search key, and variable codes for api call url
     handler = Handler(api_key)
     handler.set_year()
     handler.set_variable_codes()
-
-    #format url to call api
     handler.set_api_url()    
 
     try:
@@ -179,6 +183,8 @@ if __name__ == "__main__":
         #inform user of program completion
         print("Program request completed. Please check for '{}.csv' file in your folder where this program lives.\n".format(fileName))
 
+    except JSONDecodeError:
+        #if decoding JSON fails 
+        print("Ensure that you have entered an API Key and valid variable codes.")
     except:
-        #if any of the code is not correct
-        print("There are variable codes that don't exist. Please check the codes inputted. Quitting program...\n")
+        print("Unexpected Error has occurred: ", sys.exc_info()[0])
