@@ -7,12 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Added case to handle api and variable code exception and other unexpected exceptions.
-- Added Responder class to handle the api call url response
 
 ### Changed
-- Moved classes into their own module.
-- Changed census.py to main.py
 
 ### Fixed
 
